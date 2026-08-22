@@ -20,6 +20,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       setFirebaseUser(u);
+      try {
       if (!u) {
         setProfile(null);
         setRole(null);
@@ -38,7 +39,13 @@ export function AuthProvider({ children }) {
           setRole("client");
         }
       }
-      setLoading(false);
+      } catch (error) {
+        console.error("Impossible de charger le profil utilisateur :", error);
+        setProfile(null);
+        setRole(null);
+      } finally {
+        setLoading(false);
+      }
     });
     return unsub;
   }, []);

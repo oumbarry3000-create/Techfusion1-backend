@@ -20,6 +20,13 @@ service cloud.firestore {
       allow write: if isAdmin(); // Seul un admin peut modifier les admins
     }
 
+    match /users/{userId} {
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow read, update: if request.auth != null &&
+        (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
+
     // --- Collection services ---
     match /services/{serviceId} {
       allow read: if request.auth != null;
