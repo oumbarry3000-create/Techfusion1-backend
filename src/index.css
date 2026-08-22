@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+.card {
+  @apply bg-techno-panel rounded-2xl border border-white/5 p-5 shadow-lg shadow-black/20;
+}
+
+.btn {
+  @apply px-4 py-2 rounded-xl font-medium transition active:scale-95;
+}
+.btn-primary {
+  @apply btn bg-techno-accent text-black hover:brightness-110;
+}
+.btn-secondary {
+  @apply btn bg-white/10 text-white hover:bg-white/20;
+}
+.btn-danger {
+  @apply btn bg-techno-danger text-white hover:brightness-110;
+}
+
+.input {
+  @apply w-full bg-black/30 border border-white/10 rounded-xl px-3 py-2 outline-none focus:border-techno-accent text-sm;
+}
+
+.badge {
+  @apply px-2 py-0.5 rounded-full text-xs font-semibold inline-block;
+}
