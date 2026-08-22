@@ -36,13 +36,25 @@ export function AuthProvider({ children }) {
         const clientSnap = await getDoc(doc(db, "users", u.uid));
         if (clientSnap.exists()) {
           setProfile({ uid: u.uid, ...clientSnap.data() });
-          setRole("client");
+        } else {
+          const newProfile = { email: u.email || "" };
+          await setDoc(doc(db, "users", u.uid), {
+            ...newProfile,
+            createdAt: serverTimestamp(),
+          });
+          setProfile({ uid: u.uid, ...newProfile });
         }
+        setRole("client");
       }
       } catch (error) {
         console.error("Impossible de charger le profil utilisateur :", error);
-        setProfile(null);
-        setRole(null);
+        if (u) {
+          setProfile({ uid: u.uid, email: u.email || "" });
+          setRole("client");
+        } else {
+          setProfile(null);
+          setRole(null);
+        }
       } finally {
         setLoading(false);
       }
